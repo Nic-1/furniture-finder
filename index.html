@@ -779,7 +779,10 @@ function sendToTeam(){
   }).join('\n');
   const total=selTotal();
  
+  const quoteRequested=document.getElementById('tf-quote')?.checked;
+ 
   const bodyText=[
+    quoteRequested ? '⭐ CUSTOMER REQUESTED A FULL QUOTE ⭐' : '',
     '📋 FROM RV FURNITURE FINDER',
     '============================',
     selList||'(no products selected)',
@@ -1253,7 +1256,7 @@ function render(){
       html+='</div>';
     });
  
-    /* CART SUMMARY */
+    /* SELECTIONS SUMMARY */
     const sel=S.sel;
     html+=`<div class="cart-box"><h3>🛒 Your selections & estimated total</h3>`;
     if(!sel.length){
@@ -1271,9 +1274,7 @@ function render(){
       });
       html+=`<div class="ctotal"><span>Estimated total</span><span>$${selTotal().toLocaleString()}</span></div>`;
     }
-    html+=`<button class="btn-cart" ${!sel.length?'disabled':''} onclick="addToCart()">
-      ${sel.length?`Add ${sel.length} item${sel.length>1?'s':''} to cart — $${selTotal().toLocaleString()}`:'Select products above'}
-    </button></div>`;
+    html+=`</div>`;
  
     /* SEND TO TEAM + CONTACT */
     html+=`
@@ -1305,6 +1306,10 @@ function render(){
             <label>Message <span style="font-weight:400;color:var(--mid)">(optional)</span></label>
             <textarea id="tf-message" placeholder="Any questions, extra details about your RV, timeline, etc."></textarea>
           </div>
+          <label class="check-row" style="margin-bottom:16px;margin-top:4px;">
+            <input type="checkbox" id="tf-quote" accent-color="var(--green)" style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;">
+            <span style="font-size:13px;font-weight:600;color:var(--dark);">Please include a full quote for my selected items</span>
+          </label>
           <button class="btn-send" id="btnSend" onclick="sendToTeam()">
             ✉️ Send to Our Team
           </button>
@@ -1469,54 +1474,22 @@ function setOpt(pieceIdx,productId,key,value){
    If variantIds are present, adds all at once.
    Falls back to contact page with selections note.
 ───────────────────────────────────────────── */
-async function addToCart(){
+function addToCart(){
   const sel=S.sel;
   if(!sel.length) return;
  
   const withVariants=sel.filter(sp=>sp.product.variantId);
  
   if(withVariants.length){
-    const btn=document.querySelector('.btn-cart');
-    if(btn){ btn.disabled=true; btn.textContent='Adding to cart…'; }
- 
-    try{
-      // Add items one at a time — required for cross-domain requests to Shopify
-      for(const sp of withVariants){
-        const mat=sp.material||getDefaultMaterial(sp.product);
-        const res=await fetch('https://openroadinteriors.com/cart/add.js',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          credentials:'include',
-          body:JSON.stringify({
-            items:[{
-              id: sp.product.variantId,
-              quantity: 1,
-              properties: {
-                'Material': mat,
-                ...sp.opts,
-                'Piece #': sp.pieceIdx+1,
-                'Est. Price': '$'+(getMaterialPrice(sp.product,mat)+upgradePrice(sp)).toLocaleString(),
-              }
-            }]
-          })
-        });
-        if(!res.ok){
-          const err=await res.text();
-          console.error('Cart add failed:',err);
-          throw new Error(err);
-        }
-      }
-      // All added — redirect to cart
-      window.location.href='https://openroadinteriors.com/cart';
-      return;
-    }catch(e){
-      console.error('Cart error:',e);
-      if(btn){ btn.disabled=false; btn.textContent=`Add ${sel.length} item${sel.length>1?'s':''} to cart — $${selTotal().toLocaleString()}`; }
-      // Fall through to contact page fallback
-    }
+    // Build Shopify cart URL: /cart/VARIANTID:QTY,VARIANTID2:QTY
+    // This works cross-domain with no CORS issues — just a direct link
+    const cartItems=withVariants.map(sp=>sp.product.variantId+':1').join(',');
+    const cartUrl='https://openroadinteriors.com/cart/'+cartItems;
+    window.location.href=cartUrl;
+    return;
   }
  
-  // Fallback: open contact page with selections pre-filled
+  // Fallback if no variant IDs: open contact page with selections pre-filled
   const note=sel.map(sp=>{
     const mat=sp.material||getDefaultMaterial(sp.product);
     const optStr=[mat,...Object.values(sp.opts||{}).filter(o=>o&&!o.startsWith('No ')&&!o.includes('standard'))].filter(Boolean).join(', ');
