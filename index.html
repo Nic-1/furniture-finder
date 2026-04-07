@@ -712,43 +712,48 @@ function buildQuizSummaryText(){
   let lines=[];
   S.pieces.forEach((piece,pi)=>{
     const tl=(TYPES[piece.type]&&TYPES[piece.type].label)||piece.type;
-    lines.push(`--- Piece ${pi+1}: ${tl} ---`);
+    lines.push(`📦 Piece ${pi+1}: ${tl}`);
+    lines.push('');
  
     // Slideout
-    if(piece.slideout==='no') lines.push('Slideout: No slideout');
-    else if(piece.slideout==='raised') lines.push('Slideout: Raised (elevated floor)');
-    else if(piece.slideout==='flush') lines.push('Slideout: Flush (same floor level)');
+    if(piece.slideout==='no') lines.push('  Slideout:       No slideout');
+    else if(piece.slideout==='raised') lines.push('  Slideout:       Raised (elevated floor)');
+    else if(piece.slideout==='flush') lines.push('  Slideout:       Flush (same floor level)');
  
     // Width
-    if(piece.widthUnsure) lines.push('Width: Not sure / needs measuring');
-    else if(piece.widthVal) lines.push(`Width available: up to ${piece.widthVal}"`);
+    if(piece.widthUnsure) lines.push('  Width:          Not sure / needs measuring');
+    else if(piece.widthVal) lines.push(`  Width:          Up to ${piece.widthVal}"`);
  
     // Depth
-    if(piece.slideDepthUnknown) lines.push('Slideout depth: Unknown');
-    else if(piece.slideDepth) lines.push(`Slideout depth: ${piece.slideDepth}"`);
+    if(piece.slideDepthUnknown) lines.push('  Slideout depth: Unknown');
+    else if(piece.slideDepth) lines.push(`  Slideout depth: ${piece.slideDepth}"`);
  
     // Height step
-    if(piece.slideHeightUnknown) lines.push('Step height: Unknown');
-    else if(piece.slideHeight) lines.push(`Step height: ${piece.slideHeight}"`);
+    if(piece.slideHeightUnknown) lines.push('  Step height:    Unknown');
+    else if(piece.slideHeight) lines.push(`  Step height:    ${piece.slideHeight}"`);
  
     // Max depth
-    if(piece.maxDepthUnknown) lines.push('Max furniture depth from wall: Unknown');
-    else if(piece.maxDepth) lines.push(`Max furniture depth from wall: ${piece.maxDepth}"`);
+    if(piece.maxDepthUnknown) lines.push('  Max depth:      Unknown');
+    else if(piece.maxDepth) lines.push(`  Max depth:      ${piece.maxDepth}"`);
  
     // Features selected
-    if(piece.features && piece.features.length) lines.push(`Desired features: ${piece.features.join(', ')}`);
+    if(piece.features && piece.features.length) lines.push(`  Features:       ${piece.features.join(', ')}`);
  
     // Selected product + options
     const sel=S.sel.filter(s=>s.pieceIdx===pi);
     if(sel.length){
       sel.forEach(sp=>{
-        lines.push(`Selected: ${sp.product.name} ($${sp.product.price.toLocaleString()})`);
+        lines.push('');
+        lines.push(`  Selected:       ${sp.product.name}`);
         const opts=Object.entries(sp.opts||{}).filter(([k,v])=>v&&!v.startsWith('No ')&&!v.includes('standard'));
-        if(opts.length) lines.push(`  Options: ${opts.map(([k,v])=>v).join(', ')}`);
+        if(opts.length) lines.push(`  Options:        ${opts.map(([k,v])=>v).join(', ')}`);
       });
     } else {
-      lines.push('Product: Not yet selected');
+      lines.push('');
+      lines.push('  Selected:       Not yet selected');
     }
+    lines.push('');
+    lines.push('  ─────────────────────────────');
     lines.push('');
   });
   return lines.join('\n');
@@ -782,17 +787,19 @@ function sendToTeam(){
   const quoteRequested=document.getElementById('tf-quote')?.checked;
  
   const bodyText=[
-    quoteRequested ? '⭐ CUSTOMER REQUESTED A FULL QUOTE ⭐' : '',
-    '📋 FROM RV FURNITURE FINDER',
-    '============================',
-    selList||'(no products selected)',
-    selList?`\nEstimated Total: $${total.toLocaleString()}`:'',
-    message?`\nCustomer note: ${message}`:'',
-  ].filter(Boolean).join('\n').trim();
+    quoteRequested ? '⭐ QUOTE REQUESTED — Please send a full quote for the items below.' : '',
+    quoteRequested ? '' : '',
+    '📋 Selected Items',
+    '',
+    selList||'  (no products selected)',
+    '',
+    selList ? `  Estimated Total: $${total.toLocaleString()}` : '',
+    message ? `\n💬 Customer Note\n\n  ${message}` : '',
+  ].filter(s => s !== undefined).join('\n').trim();
  
   const measureText=[
-    '📐 QUIZ MEASUREMENTS',
-    '====================',
+    '📐 Space Measurements',
+    '',
     quizSummary,
   ].join('\n').trim();
  
