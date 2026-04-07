@@ -1281,6 +1281,10 @@ function render(){
     <div class="team-box">
       <h3>📬 Send your selections to our team</h3>
       <p>We'll review your measurements and selections and reach out with personalized recommendations, pricing, and availability.</p>
+      <label class="check-row" style="margin-bottom:16px;padding:12px 14px;background:var(--green-light);border-radius:var(--r-sm);border:1px solid var(--border);">
+        <input type="checkbox" id="tf-quote" style="accent-color:var(--green);width:18px;height:18px;cursor:pointer;flex-shrink:0;">
+        <span style="font-size:14px;font-weight:600;color:var(--dark);">Please include a full quote for my selected items</span>
+      </label>
       <div id="teamFormWrap">
         <button class="team-toggle" onclick="toggleTeamForm()">
           Send to Our Team <span id="teamArrow">▼</span>
@@ -1306,10 +1310,6 @@ function render(){
             <label>Message <span style="font-weight:400;color:var(--mid)">(optional)</span></label>
             <textarea id="tf-message" placeholder="Any questions, extra details about your RV, timeline, etc."></textarea>
           </div>
-          <label class="check-row" style="margin-bottom:16px;margin-top:4px;">
-            <input type="checkbox" id="tf-quote" accent-color="var(--green)" style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;">
-            <span style="font-size:13px;font-weight:600;color:var(--dark);">Please include a full quote for my selected items</span>
-          </label>
           <button class="btn-send" id="btnSend" onclick="sendToTeam()">
             ✉️ Send to Our Team
           </button>
