@@ -121,9 +121,9 @@ body { font-family:'Inter',sans-serif; background:var(--light-bg); color:var(--d
 .psect-title { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--green); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 
 /* ── IMAGE CAROUSEL ── */
-.pimg-wrap { position:relative; width:100%; height:180px; overflow:hidden; background:#fff; }
-.pimg-wrap img { width:100%; height:180px; object-fit:contain; object-position:center; display:block; position:absolute; top:0; left:0; opacity:0; transition:opacity .3s; }
-.pimg-wrap img.active { opacity:1; }
+.pimg-wrap { position:relative; width:100%; height:180px; overflow:hidden; background:#fff; display:block; }
+.pimg-wrap img { width:100%; height:180px; object-fit:contain; object-position:center; display:none; position:absolute; top:0; left:0; }
+.pimg-wrap img.active { display:block; }
 .pimg-wrap .carousel-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%; width:26px; height:26px; font-size:14px; line-height:26px; text-align:center; cursor:pointer; z-index:2; padding:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; }
 .pimg-wrap:hover .carousel-btn { opacity:1; }
 .pimg-wrap .carousel-btn.prev { left:6px; }
@@ -1764,5 +1764,5 @@ OPTION C (PageFly / Shogun / EComposer):
 <style>
   #version-stamp { position:fixed; bottom:8px; right:10px; font-size:10px; color:#bbb; font-family:'Inter',sans-serif; letter-spacing:.03em; pointer-events:none; z-index:999; }
 </style>
-<div id="version-stamp">v1.4.2</div>
+<div id="version-stamp">v1.4.3</div>
 </html>
