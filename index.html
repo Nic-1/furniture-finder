@@ -134,6 +134,17 @@ body { font-family:'Inter',sans-serif; background:var(--light-bg); color:var(--d
 .cdots span { width:7px; height:7px; border-radius:50%; background:#ddd; cursor:pointer; display:inline-block; }
 .cdots span.on { background:var(--green); }
 
+/* ── CAROUSEL ── */
+.cslide { position:relative; width:100%; height:180px; background:#fff; overflow:hidden; }
+.cslide img { width:100%; height:180px; object-fit:contain; display:block; }
+.cslide .carr { position:absolute; top:0; bottom:0; width:32px; background:rgba(0,0,0,.25); color:#fff; font-size:22px; border:none; cursor:pointer; display:none; align-items:center; justify-content:center; }
+.cslide:hover .carr { display:flex; }
+.cslide .carr.lft { left:0; }
+.cslide .carr.rgt { right:0; }
+.cdots { display:flex; justify-content:center; gap:5px; padding:5px 0 2px; }
+.cdots b { width:7px; height:7px; border-radius:50%; background:#ccc; display:inline-block; cursor:pointer; }
+.cdots b.on { background:var(--green); }
+
 /* PRODUCT GRID */
 .pgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 @media(max-width:520px){ .pgrid { grid-template-columns:1fr; } }
@@ -248,11 +259,7 @@ body { font-family:'Inter',sans-serif; background:var(--light-bg); color:var(--d
 .pimg-wrap { position:relative; width:100%; height:180px; background:#fff; }
 .pimg-wrap img { width:100%; height:180px; object-fit:contain; object-position:center; display:none; }
 .pimg-wrap img.active { display:block; }
-.pimg-wrap .cbtn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.35); color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-size:18px; cursor:pointer; z-index:2; padding:0; display:none; align-items:center; justify-content:center; }
-.pimg-wrap:hover .cbtn { display:flex; }
-.pimg-wrap .cbtn.prev { left:6px; }
-.pimg-wrap .cbtn.next { right:6px; }
-.cdots { display:flex; justify-content:center; gap:5px; padding:6px 0 2px; }
+.pimg-wrap .pimg-wrap:hover .pimg-wrap .pimg-wrap .cdots { display:flex; justify-content:center; gap:5px; padding:6px 0 2px; }
 .cdots span { width:7px; height:7px; border-radius:50%; background:#ddd; display:inline-block; cursor:pointer; }
 .cdots span.active { background:var(--green); }
 
@@ -416,18 +423,18 @@ const P = [
   {id:'55-venture-zerowall-ls-na', collection:'Venture', name:'55" Venture ZeroWall Loveseat (Narrow Arm — No Cupholders)', width:55, type:'theater_loveseat', tags:['Zero-Wall (Can Touch Wall)'], price:3155, variantId:45072850157647, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Loveseat.jpg?v=1757390271', url:'https://openroadinteriors.com/products/55-venture-zerowall-loveseat-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Loveseat.jpg?v=1757390271','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Loveseat-2.jpg?v=1757390272'], materialPrices:{'Premium Fabric':2650,'Ultraleather':3155,'Italian Cowhide':2650}},
   // SOFAS
   // ── MISSING VENTURE PRODUCTS ──
-  {id:'83-venture-zerowall-reclining-sofa', collection:'Venture', name:'83" Venture ZeroWall Reclining Sofa', width:83, type:'sofa', tags:['Zero-Wall (Can Touch Wall)'], price:4255, variantId:43080063221839, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934', url:'https://openroadinteriors.com/products/83-venture-zerowall-reclining-sofa', materialPrices:{'Premium Fabric':3485,'Ultraleather':4255,'Italian Cowhide':6015}, imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa2_742_detail.jpg?v=1742883934']},
+  {id:'83-venture-zerowall-reclining-sofa', collection:'Venture', name:'83" Venture ZeroWall Reclining Sofa', width:83, type:'sofa', tags:['Zero-Wall (Can Touch Wall)'], price:4255, variantId:43080063221839, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934', url:'https://openroadinteriors.com/products/83-venture-zerowall-reclining-sofa', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa2_742_detail.jpg?v=1742883934'], materialPrices:{'Premium Fabric':3485,'Ultraleather':4255,'Italian Cowhide':6015}},
   {id:'79-encore-zerowall-sf-na', collection:'Encore', name:'79" Encore ZeroWall Sofa w/ Fold-Down Back (Narrow Arm — No Cupholders)', width:79, type:'sofa', tags:['Zero-Wall (Can Touch Wall)','Fold-Down Back','Storage Drawer'], price:4940, variantId:45072850747471, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Sofa_1.jpg?v=1763087720', url:'https://openroadinteriors.com/products/79-encore-zerowall-reclining-sofa-w-folddown-back-drawer-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Sofa_1.jpg?v=1763087720','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Sofa_2.jpg?v=1763087721','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Sofa_3.jpg?v=1763087722'], materialPrices:{'Premium Fabric':4215,'Ultraleather':4940,'Italian Cowhide':6830}},
   {id:'79-venture-zerowall-sf-na', collection:'Venture', name:'79" Venture ZeroWall Reclining Sofa (Narrow Arm — No Cupholders)', width:79, type:'sofa', tags:['Zero-Wall (Can Touch Wall)'], price:4255, variantId:45072852320335, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934', url:'https://openroadinteriors.com/products/79-venture-zerowall-reclining-sofa-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa_1974_detail.jpg?v=1742883934','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-tsofa2_742_detail.jpg?v=1742883934'], materialPrices:{'Premium Fabric':3485,'Ultraleather':4255,'Italian Cowhide':6015}},
   // THEATER SEATS
   {id:'67-encore-zerowall-th-na', collection:'Encore', name:'67" Encore ZeroWall Theater Seat (Narrow Arm — No Cupholders)', width:67, type:'theater_loveseat', tags:['Zero-Wall (Can Touch Wall)','Center Console'], price:4520, variantId:45072850944079, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Theater-Seat.jpg?v=1763087541', url:'https://openroadinteriors.com/products/67-encore-zerowall-reclining-theater-seat-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Theater-Seat.jpg?v=1763087541','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Theater-Seat_1.jpg?v=1763087542','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-ZeroWall-Reclining-Theater-Seat_2.jpg?v=1763087543'], materialPrices:{'Premium Fabric':3905,'Ultraleather':4520,'Italian Cowhide':6635}},
-  {id:'71-venture-zerowall-theater-seat', collection:'Venture', name:'71" Venture ZeroWall Theater Seat', width:71, type:'theater_loveseat', tags:['Zero-Wall (Can Touch Wall)','Center Console'], price:4190, variantId:43578559725647, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144', url:'https://openroadinteriors.com/products/71-venture-zerowall-theater-seat', materialPrices:{'Premium Fabric':1265,'Ultraleather':4190,'Italian Cowhide':2650}, imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat-2.jpg?v=1757391145']},
+  {id:'71-venture-zerowall-theater-seat', collection:'Venture', name:'71" Venture ZeroWall Theater Seat', width:71, type:'theater_loveseat', tags:['Zero-Wall (Can Touch Wall)','Center Console'], price:4190, variantId:43578559725647, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144', url:'https://openroadinteriors.com/products/71-venture-zerowall-theater-seat', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat-2.jpg?v=1757391145'], materialPrices:{'Premium Fabric':1265,'Ultraleather':4190,'Italian Cowhide':2650}},
   {id:'67-venture-zerowall-th-na', collection:'Venture', name:'67" Venture ZeroWall Theater Seat (Narrow Arm — No Cupholders)', width:67, type:'theater_loveseat', tags:['Zero-Wall (Can Touch Wall)','Center Console'], price:4190, variantId:45072851763279, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144', url:'https://openroadinteriors.com/products/67-venture-zerowall-theater-seat-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat.jpg?v=1757391144','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Venture-Theater-Seat-2.jpg?v=1757391145'], materialPrices:{'Premium Fabric':3905,'Ultraleather':4190,'Italian Cowhide':6635}},
   // SLEEPERS
   {id:'67-encore-ultra-na', collection:'Encore', name:'67" Encore Ultra Sleeper (Narrow Arm — No Cupholders)', width:67, type:'sleeper', tags:['Ultra Sleeper','Tri-Fold'], price:3860, variantId:45072850616399, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-Ultra-Sleeper.jpg?v=1763087858', url:'https://openroadinteriors.com/products/67-encore-ultra-sleeper-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-Ultra-Sleeper.jpg?v=1763087858','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-Ultra-Sleeper_1.jpg?v=1763087859','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-Encore-Ultra-Sleeper_2.jpg?v=1763087860'], materialPrices:{'Premium Fabric':4215,'Ultraleather':3860,'Italian Cowhide':6830}},
   {id:'67-venture-ultra-na', collection:'Venture', name:'67" Venture Ultra Sleeper (Narrow Arm — No Cupholders)', width:67, type:'sleeper', tags:['Ultra Sleeper','Tri-Fold'], price:3575, variantId:45072851861583, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-71-inch-Venture-Ultra-Sleeper.jpg?v=1757390598', url:'https://openroadinteriors.com/products/67-venture-ultra-sleeper-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-71-inch-Venture-Ultra-Sleeper.jpg?v=1757390598','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/LCC-71-inch-Venture-Ultra-Sleeper-2.jpg?v=1757390599'], materialPrices:{'Premium Fabric':3485,'Ultraleather':3575,'Italian Cowhide':6015}},
-  {id:'68-venture-hide-a-bed-sofa-queen', collection:'Venture', name:'78" Venture Hide-A-Bed Sofa (Queen)', width:78, type:'sleeper', tags:['Hide-A-Bed','Queen Size'], price:3115, variantId:44488441528399, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/68-venture-hide-a-bed-sofa-queen', materialPrices:{'Premium Fabric':2675,'Ultraleather':3115,'Italian Cowhide':4785}, imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157']},
-  {id:'venture-hide-a-bed-sofa', collection:'Venture', name:'71" Venture Hide-A-Bed Sofa', width:71, type:'sleeper', tags:['Hide-A-Bed'], price:3045, variantId:43080063057999, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/venture-hide-a-bed-sofa', materialPrices:{'Premium Fabric':1265,'Ultraleather':3045,'Italian Cowhide':2650}, imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157']},
+  {id:'68-venture-hide-a-bed-sofa-queen', collection:'Venture', name:'78" Venture Hide-A-Bed Sofa (Queen)', width:78, type:'sleeper', tags:['Hide-A-Bed','Queen Size'], price:3115, variantId:44488441528399, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/68-venture-hide-a-bed-sofa-queen', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157'], materialPrices:{'Premium Fabric':2675,'Ultraleather':3115,'Italian Cowhide':4785}},
+  {id:'venture-hide-a-bed-sofa', collection:'Venture', name:'71" Venture Hide-A-Bed Sofa', width:71, type:'sleeper', tags:['Hide-A-Bed'], price:3045, variantId:43080063057999, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/venture-hide-a-bed-sofa', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157'], materialPrices:{'Premium Fabric':1265,'Ultraleather':3045,'Italian Cowhide':2650}},
   {id:'67-venture-hab-na', collection:'Venture', name:'67" Venture Hide-A-Bed Sofa (Narrow Arm — No Cupholders)', width:67, type:'sleeper', tags:['Hide-A-Bed'], price:3045, variantId:45072852189263, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/67-venture-hide-a-bed-sofa-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157'], materialPrices:{'Premium Fabric':2675,'Ultraleather':3045,'Italian Cowhide':4785}},
   {id:'74-venture-queen-hab-na', collection:'Venture', name:'74" Venture Hide-A-Bed Sofa Queen (Narrow Arm — No Cupholders)', width:74, type:'sleeper', tags:['Hide-A-Bed','Queen Size'], price:3115, variantId:45072850452559, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157', url:'https://openroadinteriors.com/products/74-venture-hide-a-bed-sofa-queen-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper3_791_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper2_1083_detail.jpg?v=1742884157','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-sleeper1_1490_detail.jpg?v=1742884157'], materialPrices:{'Premium Fabric':2675,'Ultraleather':3115,'Italian Cowhide':4785}},
   {id:'76-venture-jk-na', collection:'Venture', name:'76" Venture Jack Knife Sofa (Narrow Arm — No Cupholders)', width:76, type:'sleeper', tags:['Jack Knife'], price:3115, variantId:45072852058191, img:'https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-jackknife-sofa_2145_detail.jpg?v=1742884333', url:'https://openroadinteriors.com/products/76-venture-jack-knife-sofa-narrow-arm', imgs:['https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-jackknife-sofa_2145_detail.jpg?v=1742884333','https://cdn.shopify.com/s/files/1/0630/8161/1343/files/venture-jackknife2_1609_detail.jpg?v=1742884333'], materialPrices:{'Premium Fabric':2675,'Ultraleather':3115,'Italian Cowhide':4785}},
@@ -867,18 +874,17 @@ function renderCard(p, pi){
   // Image display — carousel if multiple images, single if not
   const allImgs = (p.imgs && Array.isArray(p.imgs) && p.imgs.length > 1) ? p.imgs : null;
   const safeId = p.id.replace(/[^a-zA-Z0-9]/g, '-');
-  // Carousel or single image
-  const _imgs = (p.imgs && Array.isArray(p.imgs) && p.imgs.length > 1) ? p.imgs : null;
-  const _sid = p.id.replace(/[^a-zA-Z0-9]/g,'-');
-  let imgHTML = '';
-  if(_imgs){
-    imgHTML = `<div class="pimg-wrap" id="cw-${_sid}">`;
-    _imgs.forEach((s,i)=>{ imgHTML+=`<img src="${s}" class="${i===0?'active':''}" alt="" loading="${i===0?'eager':'lazy'}">` });
-    imgHTML += `<button class="cbtn prev" onclick="event.stopPropagation();cStep('${p.id}',-1)">&#8249;</button>`;
-    imgHTML += `<button class="cbtn next" onclick="event.stopPropagation();cStep('${p.id}',1)">&#8250;</button>`;
-    imgHTML += `</div><div class="cdots" id="cd-${_sid}">`;
-    _imgs.forEach((_,i)=>{ imgHTML+=`<span class="${i===0?'on':''}" onclick="event.stopPropagation();cGo('${p.id}',${i})"></span>` });
-    imgHTML += `</div>`;
+  // Build image HTML — use data-imgs attribute for multi-image carousel
+  const _allImgs = p.imgs && Array.isArray(p.imgs) && p.imgs.length > 1 ? p.imgs : null;
+  let imgHTML;
+  if(_allImgs){
+    const encoded = _allImgs.map(u=>encodeURIComponent(u)).join('|');
+    imgHTML = `<div class="cslide" data-imgs="${encoded}" data-idx="0">
+      <img src="${_allImgs[0]}" alt="" loading="eager">
+      <button class="carr lft" onclick="cPrev(this)">&#8249;</button>
+      <button class="carr rgt" onclick="cNext(this)">&#8250;</button>
+    </div>
+    <div class="cdots">${_allImgs.map((_,i)=>`<b class="${i===0?'on':''}" onclick="cDot(this,${i})"></b>`).join('')}</div>`;
   } else if(p.img){
     imgHTML = `<img class="pimg" src="${p.img}" alt="" loading="lazy" onerror="this.style.display='none'">`;
   } else {
@@ -934,25 +940,21 @@ function renderCollGroup(coll, items, pi){
 
 
 
-function cStep(pid, dir){
-  const sid = pid.replace(/[^a-zA-Z0-9]/g,'-');
-  const wrap = document.getElementById('cw-'+sid);
-  if(!wrap) return;
-  const imgs = Array.from(wrap.querySelectorAll('img'));
-  let cur = imgs.findIndex(i=>i.classList.contains('active'));
-  if(cur<0) cur=0;
-  imgs[cur].classList.remove('active');
-  cur=(cur+dir+imgs.length)%imgs.length;
-  imgs[cur].classList.add('active');
-  document.querySelectorAll('#cd-'+sid+' span').forEach((d,i)=>d.classList.toggle('on',i===cur));
+
+function cShow(slide, idx){
+  const imgs = slide.dataset.imgs.split('|').map(decodeURIComponent);
+  if(idx < 0) idx = imgs.length - 1;
+  if(idx >= imgs.length) idx = 0;
+  slide.dataset.idx = idx;
+  slide.querySelector('img').src = imgs[idx];
+  const dots = slide.nextElementSibling;
+  if(dots && dots.classList.contains('cdots')){
+    dots.querySelectorAll('b').forEach((b,i) => b.classList.toggle('on', i===idx));
+  }
 }
-function cGo(pid, idx){
-  const sid = pid.replace(/[^a-zA-Z0-9]/g,'-');
-  const wrap = document.getElementById('cw-'+sid);
-  if(!wrap) return;
-  Array.from(wrap.querySelectorAll('img')).forEach((img,i)=>img.classList.toggle('active',i===idx));
-  document.querySelectorAll('#cd-'+sid+' span').forEach((d,i)=>d.classList.toggle('on',i===idx));
-}
+function cPrev(btn){ const s=btn.closest('.cslide'); cShow(s, parseInt(s.dataset.idx)-1); }
+function cNext(btn){ const s=btn.closest('.cslide'); cShow(s, parseInt(s.dataset.idx)+1); }
+function cDot(dot, idx){ cShow(dot.closest('.cdots').previousElementSibling, idx); }
 function toggleTeamForm(){
   const f=document.getElementById('teamForm');
   const arrow=document.getElementById('teamArrow');
@@ -1789,5 +1791,5 @@ OPTION C (PageFly / Shogun / EComposer):
 <style>
   #version-stamp { position:fixed; bottom:8px; right:10px; font-size:10px; color:#bbb; font-family:'Inter',sans-serif; letter-spacing:.03em; pointer-events:none; z-index:999; }
 </style>
-<div id="version-stamp">v1.5.0</div>
+<div id="version-stamp">v1.6.0</div>
 </html>
