@@ -829,19 +829,33 @@ function match(piece){
     // dep==='open' or null → no restriction
 
     const f = piece.features;
-    if(f.includes("Big Man's (oversized seat)") && !p.tags.includes("Big Man's")) return false;
-    if(f.includes('Electric Lift')              && !p.tags.includes('Electric Lift')) return false;
-    if(f.includes('Swivel Base')                && !p.tags.includes('Swivel')) return false;
-    if(f.includes('Rocker (No Swivel)')                     && !p.tags.includes('Rocker (No Swivel)')) return false;
-        if(f.includes('Zero-Wall only')             && !p.tags.includes('Zero-Wall (Can Touch Wall)')) return false;
-    if(f.includes('Fold-Down Back')             && !p.tags.includes('Fold-Down Back')) return false;
-    if(f.includes('Reclining')                  && !p.tags.includes('Reclining')) return false;
-    if(f.includes('Center Console')                && !p.tags.includes('Center Console')) return false;
-    if(f.includes("Narrow Arm (4\" less width, no cupholders)") && !p.id.endsWith('-na')) return false;
-    if(f.includes('Queen Size bed')             && !p.tags.includes('Queen Size')) return false;
-    if(f.includes('Jack Knife style')           && !p.tags.includes('Jack Knife')) return false;
-    if(f.includes('Hide-A-Bed style')           && !p.tags.includes('Hide-A-Bed')) return false;
-    if(f.includes('Tri-Fold style')              && !p.tags.includes('Tri-Fold')) return false;
+    if(f && f.length > 0){
+      // OR logic: product must match AT LEAST ONE selected feature
+      const featureMatches = {
+        "Big Man's (oversized seat)": p.tags.includes("Big Man's"),
+        'Electric Lift':              p.tags.includes('Electric Lift'),
+        'Swivel Base':                p.tags.includes('Swivel'),
+        'Rocker (No Swivel)':         p.tags.includes('Rocker (No Swivel)'),
+        'Zero-Wall only':             p.tags.includes('Zero-Wall (Can Touch Wall)'),
+        'Zero-Wall (Can Touch Wall)': p.tags.includes('Zero-Wall (Can Touch Wall)'),
+        'Fold-Down Back':             p.tags.includes('Fold-Down Back'),
+        'Reclining':                  p.tags.includes('Reclining'),
+        'Center Console':             p.tags.includes('Center Console'),
+        "Narrow Arm (4\" less width, no cupholders)": p.id.endsWith('-na'),
+        'Queen Size bed':             p.tags.includes('Queen Size'),
+        'Jack Knife style':           p.tags.includes('Jack Knife'),
+        'Hide-A-Bed style':           p.tags.includes('Hide-A-Bed'),
+        'Tri-Fold style':             p.tags.includes('Tri-Fold'),
+        'Outside Lever Handle':       true, // mechanism options don't filter products
+        'Inside Handle':              true,
+        'Electric Controls (Inside Button)':  true,
+        'Electric Controls (Outside Button)': true,
+        'Head Tilt (Electric Only)':  true,
+        'Lay Flat Recline':           true,
+      };
+      const anyMatch = f.some(feat => featureMatches[feat] !== false && featureMatches[feat] !== undefined ? featureMatches[feat] : true);
+      if(!anyMatch) return false;
+    }
     return true;
   }).sort((a,b)=>b.width-a.width);
 }
@@ -1739,7 +1753,7 @@ function addToCart(){
 }
 
 function restart(){
-  S={phase:'count',sub:'type',numPieces:1,pieces:[],cur:0,sel:[]};
+  S={phase:'count',sub:'type',numPieces:1,pieces:[],cur:0,sel:[],pendingMat:{}};
   render();
 }
 
@@ -1791,5 +1805,5 @@ OPTION C (PageFly / Shogun / EComposer):
 <style>
   #version-stamp { position:fixed; bottom:8px; right:10px; font-size:10px; color:#bbb; font-family:'Inter',sans-serif; letter-spacing:.03em; pointer-events:none; z-index:999; }
 </style>
-<div id="version-stamp">v1.7.4</div>
+<div id="version-stamp">v1.7.5</div>
 </html>
